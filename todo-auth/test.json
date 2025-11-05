@@ -1,0 +1,8 @@
+{
+    "users":[
+        {"id":"user_1", "name":"Test User 1", "email":"testuser@123.com", "password":"123456"}
+    ],
+    "todos":[
+        {"id":"todo_1", "userId":"user_1","task":"learn angular", "completed":"false", "createdAt":"some time"}
+    ]
+}

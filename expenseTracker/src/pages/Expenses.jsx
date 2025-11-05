@@ -1,9 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ExpenseForm from '../components/ExpenseForm'
 
 const Expenses = () => {
   const [expenseList, setExpenseList] = useState([])
-  console.log(expenseList)
+  const [totalSpent, setTotalSpent] = useState(0)
+
+  useEffect(() => {
+    const calculateTotal = () => {
+    if(expenseList.length) {
+      let amountSpent = 0
+      for (let i = 0; i < expenseList.length; i++) {
+        amountSpent +=  parseInt(expenseList[i].amount)
+    }
+    setTotalSpent(amountSpent)
+    }
+  }
+  calculateTotal()
+  },[expenseList])
+  console.log(totalSpent)
+  
   return (
     <>
       <header>

@@ -23,7 +23,7 @@ const ExpenseForm = ({expenseList,setExpenseList}) => {
     <div>
       <form onSubmit={handleSubmit}>
         <input name='name' type="text" value={expense.name} onChange={addExpense} placeholder='Expense Name'/>
-        <input name='amount' type="text" value={expense.amount} onChange={addExpense} placeholder='Expense Amount'/>
+        <input name='amount' type="number" value={expense.amount} onChange={addExpense} placeholder='Expense Amount'/>
         <input name='category' type="text" value={expense.category} onChange={addExpense} placeholder='Expense Category'/>
         <button type='submit' >Add Expense</button>
       </form>
