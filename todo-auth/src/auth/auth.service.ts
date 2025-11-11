@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { catchError, map, Observable, switchMap, throwError } from "rxjs";
-import { User } from "./auth.model";
+import { AuthResponse, User } from "./auth.model";
 import { v4 as uuidv4 } from "uuid";
 
 @Injectable({
@@ -31,5 +31,36 @@ export class AuthService {
             }),
             catchError(this.handleError)
         )
+    }
+
+    login(credentials: {email: string, password: string}): Observable<AuthResponse> {
+        return this.http.get<any[]>(`${this.usersUrl}?email=${credentials.email.toLowerCase()}&password=${credentials.password.toLowerCase()}`).pipe(
+            map(users => {
+                if (users.length > 0) {
+                    const user = users[0]
+
+                    const {password, ...userWithoutPassword} = user
+
+                    return {
+                        user: userWithoutPassword,
+                        accessToken: `mockToken-${user.id}-${new Date().getTime()}` // mock token
+                    }
+                } else {
+                    throw new Error('Invalid email or password')
+                }
+            }),
+            catchError(this.handleError)
+        )
+    }
+
+    private handleError(error:any): Observable<never> {
+        console.error('AuthService Error:', error)
+        let errorMessage = 'An unknown error occured during authentication'
+        if(error.message) {
+            errorMessage = error.message
+        } else if (error.status) {
+            errorMessage = `Server Error: ${error.status}`
+        }
+        return throwError(() => new Error(errorMessage))
     }
 }
